@@ -3,21 +3,33 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Check } from 'lucide-react';
 import { toast } from "@/components/ui/sonner";
+import PaymentForm from './PaymentForm';
 
 const Pricing = () => {
   const [isAnnual, setIsAnnual] = useState(true);
+  const [paymentFormOpen, setPaymentFormOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState({ name: '', price: '' });
   
   const handleSubscribe = (plan) => {
-    toast(`${plan} subscription`, {
-      description: `Processing your ${plan} subscription...`,
-    });
-    
-    // In a real application, this would redirect to a payment gateway
-    setTimeout(() => {
-      toast(`${plan} subscription activated`, {
-        description: "Thank you for your subscription!",
+    if (plan.name === "Starter") {
+      // For free plan, just show a toast
+      toast(`${plan.name} subscription`, {
+        description: `Processing your ${plan.name} subscription...`,
       });
-    }, 2000);
+      
+      setTimeout(() => {
+        toast(`${plan.name} subscription activated`, {
+          description: "Thank you for your subscription!",
+        });
+      }, 2000);
+    } else {
+      // For paid plans, open payment form
+      setSelectedPlan({
+        name: plan.name,
+        price: isAnnual ? plan.price.annual : plan.price.monthly
+      });
+      setPaymentFormOpen(true);
+    }
   };
   
   const plans = [
@@ -133,7 +145,7 @@ const Pricing = () => {
                       : ""
                   }`}
                   variant={plan.popular ? "default" : "outline"}
-                  onClick={() => handleSubscribe(plan.name)}
+                  onClick={() => handleSubscribe(plan)}
                 >
                   {plan.cta}
                 </Button>
@@ -170,6 +182,13 @@ const Pricing = () => {
           </p>
         </div>
       </div>
+      
+      <PaymentForm 
+        open={paymentFormOpen} 
+        onClose={() => setPaymentFormOpen(false)}
+        planName={selectedPlan.name}
+        planPrice={selectedPlan.price}
+      />
     </section>
   );
 };
