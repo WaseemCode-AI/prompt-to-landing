@@ -1,8 +1,26 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/sonner";
 
 const Navbar = () => {
+  const handleSignIn = () => {
+    toast("Sign in feature", {
+      description: "Sign in functionality will be implemented soon.",
+    });
+  };
+
+  const handleGetStarted = () => {
+    toast("Getting started", {
+      description: "Creating your account...",
+    });
+    // Scroll to pricing section
+    const pricingSection = document.getElementById('pricing');
+    if (pricingSection) {
+      pricingSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md border-b">
       <div className="container flex h-16 items-center justify-between">
@@ -21,8 +39,8 @@ const Navbar = () => {
         </nav>
         
         <div className="flex items-center gap-4">
-          <Button variant="ghost" className="hidden md:inline-flex">Sign In</Button>
-          <Button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90 transition-opacity">Get Started</Button>
+          <Button variant="ghost" className="hidden md:inline-flex" onClick={handleSignIn}>Sign In</Button>
+          <Button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90 transition-opacity" onClick={handleGetStarted}>Get Started</Button>
         </div>
       </div>
     </header>

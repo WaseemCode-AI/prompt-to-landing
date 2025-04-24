@@ -2,9 +2,23 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Check } from 'lucide-react';
+import { toast } from "@/components/ui/sonner";
 
 const Pricing = () => {
   const [isAnnual, setIsAnnual] = useState(true);
+  
+  const handleSubscribe = (plan) => {
+    toast(`${plan} subscription`, {
+      description: `Processing your ${plan} subscription...`,
+    });
+    
+    // In a real application, this would redirect to a payment gateway
+    setTimeout(() => {
+      toast(`${plan} subscription activated`, {
+        description: "Thank you for your subscription!",
+      });
+    }, 2000);
+  };
   
   const plans = [
     {
@@ -119,6 +133,7 @@ const Pricing = () => {
                       : ""
                   }`}
                   variant={plan.popular ? "default" : "outline"}
+                  onClick={() => handleSubscribe(plan.name)}
                 >
                   {plan.cta}
                 </Button>
@@ -140,7 +155,18 @@ const Pricing = () => {
           <p className="text-muted-foreground">
             All plans include secure hosting and 24/7 monitoring. Need a custom solution?
             <br />
-            <a href="#" className="text-purple-500 hover:underline font-medium">Contact our sales team</a>
+            <a 
+              href="#" 
+              className="text-purple-500 hover:underline font-medium"
+              onClick={(e) => {
+                e.preventDefault();
+                toast("Contact sales", {
+                  description: "Our sales team will contact you shortly.",
+                });
+              }}
+            >
+              Contact our sales team
+            </a>
           </p>
         </div>
       </div>

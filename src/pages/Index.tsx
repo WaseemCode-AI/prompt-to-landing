@@ -15,10 +15,18 @@ const Index = () => {
       <Navbar />
       <main className="flex-1">
         <Hero />
-        <HowItWorks />
-        <Features />
-        <Testimonials />
-        <Pricing />
+        <section id="how-it-works">
+          <HowItWorks />
+        </section>
+        <section id="features">
+          <Features />
+        </section>
+        <section id="testimonials">
+          <Testimonials />
+        </section>
+        <section id="pricing">
+          <Pricing />
+        </section>
         <FinalCTA />
       </main>
       <Footer />
