@@ -54,10 +54,11 @@ const Hero = () => {
 
           <div className="relative w-full max-w-5xl mx-auto mt-8 animate-fade-in rounded-xl shadow-2xl overflow-hidden" style={{ animationDelay: '600ms' }}>
             <img 
-              src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=1200&h=675&q=80" 
-              alt="PromptPage Dashboard" 
-              className="w-full rounded-xl border"
+              src="https://images.unsplash.com/photo-1460925895917-afdab827c52f"
+              alt="Landing Page Generator Dashboard" 
+              className="w-full rounded-xl border object-cover"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
             <div className="absolute top-4 left-4 flex space-x-2">
               <div className="w-3 h-3 bg-red-500 rounded-full"></div>
               <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
