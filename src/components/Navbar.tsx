@@ -1,13 +1,14 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
+import SignInForm from './SignInForm';
 
 const Navbar = () => {
+  const [signInOpen, setSignInOpen] = useState(false);
+
   const handleSignIn = () => {
-    toast("Sign in feature", {
-      description: "Sign in functionality will be implemented soon.",
-    });
+    setSignInOpen(true);
   };
 
   const handleGetStarted = () => {
@@ -43,6 +44,8 @@ const Navbar = () => {
           <Button className="bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90 transition-opacity" onClick={handleGetStarted}>Get Started</Button>
         </div>
       </div>
+      
+      <SignInForm open={signInOpen} onClose={() => setSignInOpen(false)} />
     </header>
   );
 };

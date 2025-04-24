@@ -1,10 +1,13 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
 import { toast } from "@/components/ui/sonner";
+import DemoForm from './DemoForm';
 
 const FinalCTA = () => {
+  const [demoFormOpen, setDemoFormOpen] = useState(false);
+
   const handleTryFree = () => {
     toast("Free trial started", {
       description: "Setting up your free trial account...",
@@ -17,10 +20,7 @@ const FinalCTA = () => {
   };
 
   const handleBookDemo = () => {
-    toast("Demo booking", {
-      description: "Opening demo booking calendar...",
-    });
-    // In a real app, we would open a booking modal here
+    setDemoFormOpen(true);
   };
 
   return (
@@ -51,6 +51,8 @@ const FinalCTA = () => {
           <p className="text-sm opacity-75">No credit card required • Free tier available</p>
         </div>
       </div>
+
+      <DemoForm open={demoFormOpen} onClose={() => setDemoFormOpen(false)} />
     </section>
   );
 };

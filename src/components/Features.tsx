@@ -1,40 +1,54 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Zap, Layout, Star, ArrowDown, ArrowUp, MousePointer, Pencil } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { toast } from "@/components/ui/sonner";
 
 const Features = () => {
   const features = [
     {
       icon: <Zap className="h-6 w-6 text-purple-500" />,
       title: "AI-Powered Design",
-      description: "Our AI understands design principles and creates visually stunning pages optimized for conversions."
+      description: "Our AI understands design principles and creates visually stunning pages optimized for conversions.",
+      action: "Learn about AI design"
     },
     {
       icon: <Layout className="h-6 w-6 text-purple-500" />,
       title: "100% Responsive",
-      description: "Every landing page looks perfect on all devices, from desktop to mobile, automatically."
+      description: "Every landing page looks perfect on all devices, from desktop to mobile, automatically.",
+      action: "See responsive demos"
     },
     {
       icon: <ArrowDown className="h-6 w-6 text-purple-500" />,
       title: "Export HTML & CSS",
-      description: "Download clean code or integrate with your favorite hosting platform in one click."
+      description: "Download clean code or integrate with your favorite hosting platform in one click.",
+      action: "View export options"
     },
     {
       icon: <ArrowUp className="h-6 w-6 text-purple-500" />,
       title: "SEO Optimized",
-      description: "Built-in best practices ensure your page ranks well on search engines from day one."
+      description: "Built-in best practices ensure your page ranks well on search engines from day one.",
+      action: "SEO features"
     },
     {
       icon: <MousePointer className="h-6 w-6 text-purple-500" />,
       title: "No-Code Editor",
-      description: "Fine-tune any element with our intuitive editor. No technical skills required."
+      description: "Fine-tune any element with our intuitive editor. No technical skills required.",
+      action: "Try the editor"
     },
     {
       icon: <Pencil className="h-6 w-6 text-purple-500" />,
       title: "Custom Branding",
-      description: "Import your brand colors, logos, and fonts to maintain a consistent brand identity."
+      description: "Import your brand colors, logos, and fonts to maintain a consistent brand identity.",
+      action: "Branding tools"
     },
   ];
+
+  const handleFeatureClick = (feature) => {
+    toast(`${feature.title} selected`, {
+      description: `You clicked on the ${feature.title} feature. More details coming soon!`,
+    });
+  };
   
   return (
     <section id="features" className="py-24 bg-gray-50">
@@ -48,16 +62,24 @@ const Features = () => {
         
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {features.map((feature, index) => (
-            <div 
+            <Card 
               key={index} 
-              className="bg-white p-6 rounded-2xl border hover:shadow-md transition-shadow group"
+              className="hover:shadow-md transition-shadow cursor-pointer"
+              onClick={() => handleFeatureClick(feature)}
             >
-              <div className="mb-5 inline-flex items-center justify-center rounded-lg bg-purple-100 p-2 group-hover:bg-purple-200 transition-colors">
-                {feature.icon}
-              </div>
-              <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-              <p className="text-muted-foreground">{feature.description}</p>
-            </div>
+              <CardHeader>
+                <div className="mb-2 inline-flex items-center justify-center rounded-lg bg-purple-100 p-2 group-hover:bg-purple-200 transition-colors">
+                  {feature.icon}
+                </div>
+                <CardTitle className="text-lg">{feature.title}</CardTitle>
+                <CardDescription>{feature.description}</CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <span className="text-sm text-purple-600 hover:underline">
+                  {feature.action} →
+                </span>
+              </CardFooter>
+            </Card>
           ))}
         </div>
       </div>
