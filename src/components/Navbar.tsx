@@ -27,9 +27,9 @@ const Navbar = () => {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center">
-            <span className="text-white font-bold text-lg">P</span>
+            <span className="text-white font-bold text-lg">L</span>
           </div>
-          <span className="font-bold text-xl">PromptPage</span>
+          <span className="font-bold text-xl">LandingPage</span>
         </div>
         
         <nav className="hidden md:flex items-center gap-6">
