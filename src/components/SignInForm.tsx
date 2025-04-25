@@ -17,34 +17,78 @@ const SignInForm = ({ open, onClose }: SignInFormProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [name, setName] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
-    toast("Signing in", {
-      description: "Please wait while we sign you in...",
-    });
-    
-    // Simulate sign in process
-    setTimeout(() => {
-      setLoading(false);
-      toast.success("Signed in successfully", {
-        description: "Welcome back!",
+    if (isRegistering) {
+      // Handle register
+      toast("Creating account", {
+        description: "Please wait while we create your account...",
       });
-      onClose();
-      // Redirect to dashboard or other page in a real app
-    }, 2000);
+      
+      // Simulate registration process
+      setTimeout(() => {
+        setLoading(false);
+        toast.success("Account created successfully", {
+          description: "Welcome to LandingPage!",
+        });
+        onClose();
+        // Redirect to dashboard or other page in a real app
+      }, 2000);
+    } else {
+      // Handle sign in
+      toast("Signing in", {
+        description: "Please wait while we sign you in...",
+      });
+      
+      // Simulate sign in process
+      setTimeout(() => {
+        setLoading(false);
+        toast.success("Signed in successfully", {
+          description: "Welcome back!",
+        });
+        onClose();
+        // Redirect to dashboard or other page in a real app
+      }, 2000);
+    }
+  };
+
+  const toggleMode = () => {
+    setIsRegistering(!isRegistering);
+    // Reset form fields when switching modes
+    setEmail('');
+    setPassword('');
+    setName('');
   };
 
   return (
     <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="text-center">Sign In to Your Account</DialogTitle>
+          <DialogTitle className="text-center">
+            {isRegistering ? "Create an Account" : "Sign In to Your Account"}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 pt-4">
+          {isRegistering && (
+            <div className="space-y-2">
+              <Label htmlFor="name">Full Name</Label>
+              <Input 
+                id="name" 
+                type="text"
+                placeholder="Your Name" 
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required={isRegistering}
+              />
+            </div>
+          )}
+          
           <div className="space-y-2">
             <Label htmlFor="email">Email Address</Label>
             <Input 
@@ -73,21 +117,17 @@ const SignInForm = ({ open, onClose }: SignInFormProps) => {
             className="w-full bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90"
             disabled={loading}
           >
-            {loading ? "Signing in..." : "Sign In"}
+            {loading ? (isRegistering ? "Creating account..." : "Signing in...") : (isRegistering ? "Register" : "Sign In")}
           </Button>
 
           <div className="text-center text-sm text-muted-foreground">
-            <span>Don't have an account? </span>
+            <span>{isRegistering ? "Already have an account? " : "Don't have an account? "}</span>
             <button 
               type="button"
               className="text-purple-500 hover:underline"
-              onClick={() => {
-                toast("Registration", {
-                  description: "Registration feature coming soon!",
-                });
-              }}
+              onClick={toggleMode}
             >
-              Register
+              {isRegistering ? "Sign In" : "Register"}
             </button>
           </div>
         </form>

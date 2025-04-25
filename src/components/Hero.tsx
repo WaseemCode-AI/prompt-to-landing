@@ -1,21 +1,39 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ArrowRight } from 'lucide-react';
 import VideoModal from './VideoModal';
 import { toast } from "@/components/ui/sonner";
 
 const Hero = () => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
+  const [showPromptInput, setShowPromptInput] = useState(false);
+  const [promptValue, setPromptValue] = useState('');
 
   const handleTryFree = () => {
-    toast("Free trial started", {
-      description: "Setting up your free trial account...",
-    });
-    // Scroll to pricing section
-    const pricingSection = document.getElementById('pricing');
-    if (pricingSection) {
-      pricingSection.scrollIntoView({ behavior: 'smooth' });
+    setShowPromptInput(true);
+  };
+
+  const handlePromptSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (promptValue.trim()) {
+      toast.success("Generating landing page", {
+        description: `Creating a landing page based on: "${promptValue}"`,
+      });
+      
+      setTimeout(() => {
+        toast("Free trial started", {
+          description: "Your landing page is being created. We'll notify you when it's ready!",
+        });
+        setPromptValue('');
+        // Reset input after successful submission
+        setShowPromptInput(false);
+      }, 1500);
+    } else {
+      toast.error("Empty prompt", {
+        description: "Please enter a description for your landing page",
+      });
     }
   };
 
@@ -36,21 +54,42 @@ const Hero = () => {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 items-center animate-fade-in" style={{ animationDelay: '400ms' }}>
-            <Button 
-              className="bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90 transition-opacity h-12 px-8 text-lg"
-              onClick={handleTryFree}
-            >
-              Try it for Free
-            </Button>
-            <Button 
-              variant="outline" 
-              className="h-12 px-6 text-lg"
-              onClick={handleWatchDemo}
-            >
-              Watch Demo <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
+          {showPromptInput ? (
+            <form onSubmit={handlePromptSubmit} className="w-full max-w-xl animate-fade-in" style={{ animationDelay: '400ms' }}>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Input 
+                  type="text" 
+                  placeholder="Describe your ideal landing page..."
+                  value={promptValue}
+                  onChange={(e) => setPromptValue(e.target.value)}
+                  className="h-12"
+                />
+                <Button 
+                  type="submit"
+                  className="bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90 transition-opacity h-12 px-6"
+                >
+                  Generate
+                </Button>
+              </div>
+              <p className="mt-2 text-sm text-muted-foreground">Example: "A landing page for a fitness app with workout tracking features"</p>
+            </form>
+          ) : (
+            <div className="flex flex-col sm:flex-row gap-4 items-center animate-fade-in" style={{ animationDelay: '400ms' }}>
+              <Button 
+                className="bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90 transition-opacity h-12 px-8 text-lg"
+                onClick={handleTryFree}
+              >
+                Try it for Free
+              </Button>
+              <Button 
+                variant="outline" 
+                className="h-12 px-6 text-lg"
+                onClick={handleWatchDemo}
+              >
+                Watch Demo <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+          )}
 
           <div className="relative w-full max-w-5xl mx-auto mt-8 animate-fade-in rounded-xl shadow-2xl overflow-hidden" style={{ animationDelay: '600ms' }}>
             <img 
